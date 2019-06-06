@@ -1,4 +1,4 @@
-import { Injectable, HttpException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { TradingPlan } from 'models';
 import { TradingPlansRepository } from './trading-plans.repo';
 
