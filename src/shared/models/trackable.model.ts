@@ -9,7 +9,7 @@
  */
 
 export interface Trackable {
-    id: number;
+    id: string;
 
     createdAt: Date;
     updatedAt: Date;

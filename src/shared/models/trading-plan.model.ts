@@ -24,7 +24,7 @@ export enum OrderStatus {
 }
 
 export class TradingPlan implements Trackable {
-    id: number;
+    id: string;
 
     // For a stock, the underlying and symbol should be the same.
     // For options, the underlying would be the stock symbol
