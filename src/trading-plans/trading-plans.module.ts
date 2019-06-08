@@ -5,6 +5,6 @@ import { TradingPlansRepository } from './trading-plans.repo';
 
 @Module({
   controllers: [TradingPlansController],
-  providers: [TradingPlansService, TradingPlansRepository]
+  providers: [TradingPlansService, TradingPlansRepository],
 })
-export class TradingPlansModule { }
+export class TradingPlansModule {}

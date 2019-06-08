@@ -9,8 +9,8 @@
  */
 
 export interface Trackable {
-    id: string;
+  id?: string;
 
-    createdAt: Date;
-    updatedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
