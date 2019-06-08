@@ -17,6 +17,6 @@ export class TradingPlansService {
   }
 
   public create(tradingPlan: TradingPlanDto): TradingPlan {
-    return tradingPlan;
+    return this.tradingPlansRepo.create(tradingPlan);
   }
 }

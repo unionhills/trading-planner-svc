@@ -20,6 +20,16 @@ export class TradingPlansController {
 
   @Post()
   create(@Body() createTradingPlanDto: TradingPlanDto): TradingPlan {
-    return createTradingPlanDto;
+    return this.tradingPlansService.create(createTradingPlanDto);
+  }
+
+  @Put()
+  update(@Body() updateTradingPlanDto: TradingPlanDto): TradingPlan {
+    return updateTradingPlanDto;
+  }
+
+  @Put()
+  delete(@Param('id') id: string) {
+
   }
 }

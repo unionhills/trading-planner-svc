@@ -16,6 +16,7 @@ import { Injectable } from '@nestjs/common';
 export class TradingPlansRepository {
   private fs = require('fs');
   private tradingPlanDb: TradingPlan[] = new Array<TradingPlan>();
+  private nextId: number = 3;
 
   constructor() {
     this.loadMockDb();
@@ -43,5 +44,12 @@ export class TradingPlansRepository {
 
   public findOne(id: string): TradingPlan {
     return _.find(this.tradingPlanDb, (plan: TradingPlan) => plan.id === id);
+  }
+
+  public create(tradingPlan: TradingPlan): TradingPlan {
+    tradingPlan.id = (this.nextId++).toString();
+    this.tradingPlanDb.push(tradingPlan);
+
+    return tradingPlan;
   }
 }
