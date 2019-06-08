@@ -1,4 +1,3 @@
-import * as _ from 'lodash';
 import { Observable, of } from 'rxjs';
 import { TradingPlan } from './model/trading-plan.model';
 import { Injectable } from '@nestjs/common';
@@ -43,12 +42,25 @@ export class TradingPlansRepository {
   }
 
   public findOne(id: string): TradingPlan {
-    return _.find(this.tradingPlanDb, (plan: TradingPlan) => plan.id === id);
+    return this.tradingPlanDb.find(plan => plan.id === id);
   }
 
   public create(tradingPlan: TradingPlan): TradingPlan {
     tradingPlan.id = (this.nextId++).toString();
     this.tradingPlanDb.push(tradingPlan);
+
+    return tradingPlan;
+  }
+
+  public update(id: string, tradingPlan: TradingPlan): TradingPlan {
+    const foundIndex: number = this.tradingPlanDb.findIndex(plan => plan.id === id);
+  
+    if (foundIndex < 0) {
+      return;
+    }
+
+    tradingPlan.id = id;
+    this.tradingPlanDb[foundIndex] = tradingPlan;
 
     return tradingPlan;
   }

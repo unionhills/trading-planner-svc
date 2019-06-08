@@ -23,12 +23,12 @@ export class TradingPlansController {
     return this.tradingPlansService.create(createTradingPlanDto);
   }
 
-  @Put()
-  update(@Body() updateTradingPlanDto: TradingPlanDto): TradingPlan {
-    return updateTradingPlanDto;
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateTradingPlanDto: TradingPlanDto): TradingPlan {
+    return this.tradingPlansService.update(id, updateTradingPlanDto);
   }
 
-  @Put()
+  @Delete(':id')
   delete(@Param('id') id: string) {
 
   }

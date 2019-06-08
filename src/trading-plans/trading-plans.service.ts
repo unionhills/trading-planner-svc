@@ -19,4 +19,8 @@ export class TradingPlansService {
   public create(tradingPlan: TradingPlanDto): TradingPlan {
     return this.tradingPlansRepo.create(tradingPlan);
   }
+
+  public update(id: string, tradingPlan: TradingPlanDto): TradingPlan {
+    return this.tradingPlansRepo.update(id, tradingPlan);
+  }
 }
