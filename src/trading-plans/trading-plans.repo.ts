@@ -64,4 +64,10 @@ export class TradingPlansRepository {
 
     return tradingPlan;
   }
+
+  public delete(id: string) {
+    // Replace the tradingPlanDb with everything in the original except
+    // the item we're deleting.
+    this.tradingPlanDb = this.tradingPlanDb.filter(plan => plan.id !== id);
+  }
 }

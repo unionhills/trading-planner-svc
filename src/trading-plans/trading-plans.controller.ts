@@ -30,6 +30,6 @@ export class TradingPlansController {
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-
+    return this.tradingPlansService.delete(id);
   }
 }

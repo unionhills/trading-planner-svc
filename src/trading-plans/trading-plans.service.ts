@@ -23,4 +23,8 @@ export class TradingPlansService {
   public update(id: string, tradingPlan: TradingPlanDto): TradingPlan {
     return this.tradingPlansRepo.update(id, tradingPlan);
   }
+
+  public delete(id: string) {
+    return this.tradingPlansRepo.delete(id);
+  }
 }
