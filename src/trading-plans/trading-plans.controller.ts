@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  NotFoundException,
+} from '@nestjs/common';
 import { TradingPlan } from './model/trading-plan.model';
 import { TradingPlanDto } from './dto/trading-plan.dto';
 import { Observable } from 'rxjs';
@@ -15,7 +24,13 @@ export class TradingPlansController {
 
   @Get(':id')
   findOne(@Param('id') id: string): TradingPlan {
-    return this.tradingPlansService.findOne(id);
+    const tradingPlan: TradingPlan = this.tradingPlansService.findOne(id);
+
+    if (tradingPlan === undefined) {
+      throw new NotFoundException();
+    }
+
+    return tradingPlan;
   }
 
   @Post()
@@ -24,12 +39,28 @@ export class TradingPlansController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateTradingPlanDto: TradingPlanDto): TradingPlan {
-    return this.tradingPlansService.update(id, updateTradingPlanDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateTradingPlanDto: TradingPlanDto,
+  ): TradingPlan {
+    const tradingPlan: TradingPlan = this.tradingPlansService.update(
+      id,
+      updateTradingPlanDto,
+    );
+
+    if (tradingPlan === undefined) {
+      throw new NotFoundException();
+    }
+
+    return tradingPlan;
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return this.tradingPlansService.delete(id);
+    const tradingPlan: TradingPlan = this.tradingPlansService.delete(id);
+
+    if (tradingPlan === undefined) {
+      throw new NotFoundException();
+    }
   }
 }

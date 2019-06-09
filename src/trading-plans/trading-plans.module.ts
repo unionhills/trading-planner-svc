@@ -1,10 +1,16 @@
-import { Module } from '@nestjs/common';
+import { Module, Provider } from '@nestjs/common';
 import { TradingPlansController } from './trading-plans.controller';
 import { TradingPlansService } from './trading-plans.service';
-import { TradingPlansRepository } from './trading-plans.repo';
+import { TradingPlansInMemoryRepository } from './trading-plans.inmem.repo';
+import { TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER } from './trading-plans.repo';
+
+const tradingPlanRepoProvider: Provider = {
+  provide: TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER,
+  useClass: TradingPlansInMemoryRepository,
+};
 
 @Module({
   controllers: [TradingPlansController],
-  providers: [TradingPlansService, TradingPlansRepository],
+  providers: [TradingPlansService, tradingPlanRepoProvider],
 })
 export class TradingPlansModule {}

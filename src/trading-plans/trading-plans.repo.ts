@@ -1,6 +1,5 @@
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { TradingPlan } from './model/trading-plan.model';
-import { Injectable } from '@nestjs/common';
 
 /**
  * This class handles the CRUD operations to our persistence store
@@ -11,63 +10,17 @@ import { Injectable } from '@nestjs/common';
  *
  */
 
-@Injectable()
-export class TradingPlansRepository {
-  private fs = require('fs');
-  private tradingPlanDb: TradingPlan[] = new Array<TradingPlan>();
-  private nextId: number = 3;
+export const TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER: string =
+  'TradingPlansRepository';
 
-  constructor() {
-    this.loadMockDb();
-  }
+export interface TradingPlansRepository {
+  findAll(): Observable<TradingPlan[]>;
 
-  /**
-   * We're using a simple JSON file in place of an actual database for the
-   * time being.
-   *
-   */
-  private loadMockDb() {
-    this.fs.readFile(
-      './src/trading-plans/trading-plans.mockdb.json',
-      (err: any, data: any) => {
-        if (err) throw err;
+  findOne(id: string): TradingPlan;
 
-        this.tradingPlanDb = JSON.parse(data);
-      },
-    );
-  }
+  create(tradingPlan: TradingPlan): TradingPlan;
 
-  public findAll(): Observable<TradingPlan[]> {
-    return of(this.tradingPlanDb);
-  }
+  update(id: string, tradingPlan: TradingPlan): TradingPlan;
 
-  public findOne(id: string): TradingPlan {
-    return this.tradingPlanDb.find(plan => plan.id === id);
-  }
-
-  public create(tradingPlan: TradingPlan): TradingPlan {
-    tradingPlan.id = (this.nextId++).toString();
-    this.tradingPlanDb.push(tradingPlan);
-
-    return tradingPlan;
-  }
-
-  public update(id: string, tradingPlan: TradingPlan): TradingPlan {
-    const foundIndex: number = this.tradingPlanDb.findIndex(plan => plan.id === id);
-  
-    if (foundIndex < 0) {
-      return;
-    }
-
-    tradingPlan.id = id;
-    this.tradingPlanDb[foundIndex] = tradingPlan;
-
-    return tradingPlan;
-  }
-
-  public delete(id: string) {
-    // Replace the tradingPlanDb with everything in the original except
-    // the item we're deleting.
-    this.tradingPlanDb = this.tradingPlanDb.filter(plan => plan.id !== id);
-  }
+  delete(id: string): TradingPlan;
 }
