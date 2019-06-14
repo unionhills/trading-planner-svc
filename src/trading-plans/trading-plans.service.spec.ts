@@ -30,7 +30,6 @@ describe('TradingPlansService', () => {
 
   it('should be be able to create a trading plan', () => {
     const tradingPlanDto: TradingPlanDto = JSON.parse('{ \
-      "id": "1", \
       "underlying": "MSFT" \
     }');
 
@@ -39,7 +38,7 @@ describe('TradingPlansService', () => {
     /*
      * WTF... this doesn't work but the above does!!!
 
-    const altTradingPlanDto = { id: "1", underlying: "MSFT" };
+    const altTradingPlanDto = { underlying: "MSFT" };
     const altTradingPlan: TradingPlan = service.create(altTradingPlanDto);
      */
 
@@ -48,7 +47,6 @@ describe('TradingPlansService', () => {
 
   it('should be able to get all trading plans', () => {
     const tradingPlanDto: TradingPlanDto = JSON.parse('{ \
-      "id": "1", \
       "underlying": "MSFT" \
     }');
 
@@ -57,5 +55,16 @@ describe('TradingPlansService', () => {
     service.findAll().subscribe((tradingPlans: TradingPlan[]) => {
       expect(tradingPlans.length).toBeGreaterThan(0);
     });
+  });
+
+  it('should be able to get one trading plan', () => {
+     const tradingPlanDto: TradingPlanDto = JSON.parse('{ \
+      "underlying": "MSFT" \
+    }');
+
+    const createdTradingPlan: TradingPlan = service.create(tradingPlanDto);
+    const tradingPlan: TradingPlan = service.findOne(createdTradingPlan.id);
+
+    expect(createdTradingPlan.id).toEqual(tradingPlan.id);
   });
 });
