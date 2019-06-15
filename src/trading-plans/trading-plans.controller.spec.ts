@@ -11,7 +11,7 @@ describe('TradingPlans Controller', () => {
   beforeEach(async () => {
     const tradingPlansRepoProvider: Provider = {
       provide: TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER,
-      useClass: TradingPlansInMemoryRepository,
+      useClass: TradingPlansInMemoryRepository
     };
 
     const module: TestingModule = await Test.createTestingModule({

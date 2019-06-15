@@ -6,7 +6,7 @@ import {
   Delete,
   Body,
   Param,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { TradingPlan } from './model/trading-plan.model';
 import { TradingPlanDto } from './dto/trading-plan.dto';
@@ -41,11 +41,11 @@ export class TradingPlansController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() updateTradingPlanDto: TradingPlanDto,
+    @Body() updateTradingPlanDto: TradingPlanDto
   ): TradingPlan {
     const tradingPlan: TradingPlan = this.tradingPlansService.update(
       id,
-      updateTradingPlanDto,
+      updateTradingPlanDto
     );
 
     if (tradingPlan === undefined) {

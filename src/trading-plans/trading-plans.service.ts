@@ -4,14 +4,14 @@ import { TradingPlan } from './model/trading-plan.model';
 import { TradingPlanDto } from './dto/trading-plan.dto';
 import {
   TradingPlansRepository,
-  TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER,
+  TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER
 } from './trading-plans.repo';
 
 @Injectable()
 export class TradingPlansService {
   constructor(
     @Inject(TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER)
-    private readonly tradingPlansRepo: TradingPlansRepository,
+    private readonly tradingPlansRepo: TradingPlansRepository
   ) {}
 
   public findAll(): Observable<TradingPlan[]> {

@@ -7,14 +7,89 @@ import { TradingPlan } from './model/trading-plan.model';
 import { TradingPlanDto } from './dto/trading-plan.dto';
 import { TrendOutlook, OrderStatus } from './trading-plan.enum';
 
+function generateRandomDate(min: Date, max: Date): Date {
+  return new Date(
+    min.getTime() + Math.random() * (max.getTime() - min.getTime())
+  );
+}
+
+function generateRandomIntInclusive(min: number, max: number): number {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateRandomAlphaString(len: number): string {
+  return Math.random()
+    .toString(36)
+    .replace(/[^a-z]+/g, '')
+    .substr(0, len);
+}
+
+function createTradingPlans(
+  service: TradingPlansService,
+  count: number
+): TradingPlan[] {
+  let tradingPlanDto: TradingPlanDto;
+  const tradingPlans: TradingPlan[] = new Array<TradingPlan>(count);
+
+  for (let i: number = 0; i < count; i++) {
+    const underlying = generateRandomAlphaString(4).toUpperCase();
+    const price = generateRandomIntInclusive(30, 100);
+
+    tradingPlanDto = JSON.parse(
+      `{
+      "underlying": "${underlying}",
+      "underlyingDescription": "${underlying} Corporation",
+      "marketOutlook" : "S&P is trending higher",
+      "marketTrend": "up",
+      "underlyingOutlook": "${underlying} is exhibiting higher highs and higher lows",
+      "underlyingTrend": "up",
+      "timeFrame": "weekly",
+      "strategy": "stock purchase",
+
+      "costPerContract": ${price},
+      "numberOfContracts": ${generateRandomIntInclusive(1, 5) * 100},
+  
+      "stopLoss": ${Math.floor(price - 0.1 * price)},
+      "technicalStopLoss": ${Math.ceil(price - 0.1 * price)},
+      "timeStop": "${generateRandomDate(
+        new Date(2020, 0, 1),
+        new Date(2020, 12, 31)
+      ).toISOString()}",
+
+      "plannedTradeEntryDate": "${generateRandomDate(
+        new Date(2019, 6, 1),
+        new Date(2019, 6, 31)
+      ).toISOString()}",
+
+      "entryReason": "${underlying} seems to be bouncing off of the bottom of it's upward trend channel",
+      "contingencies": "If the market experiences a sudden downturn, we may need to abort",
+
+      "status": "planned",
+      "notes": "",
+
+      "createdAt": "${new Date().toISOString()}",
+      "updatedAt": "${new Date().toISOString()}"
+    }`
+    );
+
+    console.log(tradingPlanDto);
+
+    tradingPlans[i] = service.create(tradingPlanDto);
+  }
+
+  return tradingPlans;
+}
+
 describe('TradingPlansService', () => {
   let service: TradingPlansService;
 
   beforeEach(async () => {
-
     const tradingPlansRepoProvider: Provider = {
       provide: TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER,
-      useClass: TradingPlansInMemoryRepository,
+      useClass: TradingPlansInMemoryRepository
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -28,43 +103,24 @@ describe('TradingPlansService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should be be able to create a trading plan', () => {
-    const tradingPlanDto: TradingPlanDto = JSON.parse('{ \
-      "underlying": "MSFT" \
-    }');
+  test('create a trading plan', () => {
+    const tradingPlans: TradingPlan[] = createTradingPlans(service, 1);
 
-    const tradingPlan: TradingPlan = service.create(tradingPlanDto);
-
-    /*
-     * WTF... this doesn't work but the above does!!!
-
-    const altTradingPlanDto = { underlying: "MSFT" };
-    const altTradingPlan: TradingPlan = service.create(altTradingPlanDto);
-     */
-
-    expect(tradingPlan.id.length).toBeGreaterThan(0);
+    expect(tradingPlans[0].id.length).toBeGreaterThan(0);
   });
 
-  it('should be able to get all trading plans', () => {
-    const tradingPlanDto: TradingPlanDto = JSON.parse('{ \
-      "underlying": "MSFT" \
-    }');
-
-    service.create(tradingPlanDto);
+  test('get all trading plans', () => {
+    const tradingPlans: TradingPlan[] = createTradingPlans(service, 3);
 
     service.findAll().subscribe((tradingPlans: TradingPlan[]) => {
-      expect(tradingPlans.length).toBeGreaterThan(0);
+      expect(tradingPlans.length).toBe(3);
     });
   });
 
-  it('should be able to get one trading plan', () => {
-     const tradingPlanDto: TradingPlanDto = JSON.parse('{ \
-      "underlying": "MSFT" \
-    }');
+  test('get one trading plan', () => {
+    const createdTradingPlans: TradingPlan[] = createTradingPlans(service, 3);
+    const tradingPlan: TradingPlan = service.findOne(createdTradingPlans[0].id);
 
-    const createdTradingPlan: TradingPlan = service.create(tradingPlanDto);
-    const tradingPlan: TradingPlan = service.findOne(createdTradingPlan.id);
-
-    expect(createdTradingPlan.id).toEqual(tradingPlan.id);
+    expect(createdTradingPlans[0].id).toEqual(tradingPlan.id);
   });
 });

@@ -34,7 +34,7 @@ export class TradingPlansInMemoryRepository implements TradingPlansRepository {
         if (err) throw err;
 
         this.tradingPlanDb = JSON.parse(data);
-      },
+      }
     );
   }
 
@@ -55,7 +55,7 @@ export class TradingPlansInMemoryRepository implements TradingPlansRepository {
 
   public update(id: string, tradingPlan: TradingPlan): TradingPlan {
     const foundIndex: number = this.tradingPlanDb.findIndex(
-      plan => plan.id === id,
+      plan => plan.id === id
     );
 
     if (foundIndex < 0) {

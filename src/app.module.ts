@@ -6,6 +6,6 @@ import { TradingPlansModule } from './trading-plans/trading-plans.module';
 @Module({
   imports: [TradingPlansModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {}

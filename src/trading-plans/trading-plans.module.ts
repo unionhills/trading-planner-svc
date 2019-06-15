@@ -6,11 +6,11 @@ import { TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER } from './trading-plans.rep
 
 const tradingPlansRepoProvider: Provider = {
   provide: TRADING_PLANS_REPOSITORY_INTERFACE_PROVIDER,
-  useClass: TradingPlansInMemoryRepository,
+  useClass: TradingPlansInMemoryRepository
 };
 
 @Module({
   controllers: [TradingPlansController],
-  providers: [TradingPlansService, tradingPlansRepoProvider],
+  providers: [TradingPlansService, tradingPlansRepoProvider]
 })
 export class TradingPlansModule {}
