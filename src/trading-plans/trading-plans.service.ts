@@ -30,7 +30,7 @@ export class TradingPlansService {
     return this.tradingPlansRepo.update(id, tradingPlan);
   }
 
-  public delete(id: string) {
-    this.tradingPlansRepo.delete(id);
+  public delete(id: string): TradingPlan {
+    return this.tradingPlansRepo.delete(id);
   }
 }
