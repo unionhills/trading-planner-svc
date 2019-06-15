@@ -27,6 +27,50 @@ function generateRandomAlphaString(len: number): string {
     .substr(0, len);
 }
 
+function generateRandomTradingPlanDto(): TradingPlanDto {
+  const underlying = generateRandomAlphaString(4).toUpperCase();
+  const price = generateRandomIntInclusive(30, 100);
+
+  const tradingPlanDto: TradingPlanDto = JSON.parse(
+    `{
+    "underlying": "${underlying}",
+    "underlyingDescription": "${underlying} Corporation",
+    "marketOutlook" : "S&P is trending higher",
+    "marketTrend": "up",
+    "underlyingOutlook": "${underlying} is exhibiting higher highs and higher lows",
+    "underlyingTrend": "up",
+    "timeFrame": "weekly",
+    "strategy": "stock purchase",
+
+    "costPerContract": ${price},
+    "numberOfContracts": ${generateRandomIntInclusive(1, 5) * 100},
+
+    "stopLoss": ${Math.floor(price - 0.1 * price)},
+    "technicalStopLoss": ${Math.ceil(price - 0.1 * price)},
+    "timeStop": "${generateRandomDate(
+      new Date(2020, 0, 1),
+      new Date(2020, 12, 31)
+    ).toISOString()}",
+
+    "plannedTradeEntryDate": "${generateRandomDate(
+      new Date(2019, 6, 1),
+      new Date(2019, 6, 31)
+    ).toISOString()}",
+
+    "entryReason": "${underlying} seems to be bouncing off of the bottom of it's upward trend channel",
+    "contingencies": "If the market experiences a sudden downturn, we may need to abort",
+
+    "status": "planned",
+    "notes": "",
+
+    "createdAt": "${new Date().toISOString()}",
+    "updatedAt": "${new Date().toISOString()}"
+  }`
+  );
+
+  return tradingPlanDto;
+}
+
 function createTradingPlans(
   service: TradingPlansService,
   count: number
@@ -35,49 +79,11 @@ function createTradingPlans(
   const tradingPlans: TradingPlan[] = new Array<TradingPlan>(count);
 
   for (let i: number = 0; i < count; i++) {
-    const underlying = generateRandomAlphaString(4).toUpperCase();
-    const price = generateRandomIntInclusive(30, 100);
-
-    tradingPlanDto = JSON.parse(
-      `{
-      "underlying": "${underlying}",
-      "underlyingDescription": "${underlying} Corporation",
-      "marketOutlook" : "S&P is trending higher",
-      "marketTrend": "up",
-      "underlyingOutlook": "${underlying} is exhibiting higher highs and higher lows",
-      "underlyingTrend": "up",
-      "timeFrame": "weekly",
-      "strategy": "stock purchase",
-
-      "costPerContract": ${price},
-      "numberOfContracts": ${generateRandomIntInclusive(1, 5) * 100},
-  
-      "stopLoss": ${Math.floor(price - 0.1 * price)},
-      "technicalStopLoss": ${Math.ceil(price - 0.1 * price)},
-      "timeStop": "${generateRandomDate(
-        new Date(2020, 0, 1),
-        new Date(2020, 12, 31)
-      ).toISOString()}",
-
-      "plannedTradeEntryDate": "${generateRandomDate(
-        new Date(2019, 6, 1),
-        new Date(2019, 6, 31)
-      ).toISOString()}",
-
-      "entryReason": "${underlying} seems to be bouncing off of the bottom of it's upward trend channel",
-      "contingencies": "If the market experiences a sudden downturn, we may need to abort",
-
-      "status": "planned",
-      "notes": "",
-
-      "createdAt": "${new Date().toISOString()}",
-      "updatedAt": "${new Date().toISOString()}"
-    }`
-    );
-
-    console.log(tradingPlanDto);
+    const tradingPlanDto: TradingPlanDto = generateRandomTradingPlanDto();
 
     tradingPlans[i] = service.create(tradingPlanDto);
+
+    console.log(tradingPlans[i]);
   }
 
   return tradingPlans;
@@ -122,5 +128,26 @@ describe('TradingPlansService', () => {
     const tradingPlan: TradingPlan = service.findOne(createdTradingPlans[0].id);
 
     expect(createdTradingPlans[0].id).toEqual(tradingPlan.id);
+  });
+
+  test('update trading plan', () => {
+    const baseTradingPlans: TradingPlan[] = createTradingPlans(service, 3);
+    const newTradingPlanDto: TradingPlanDto = generateRandomTradingPlanDto();
+    const updateId: string = baseTradingPlans[0].id;
+
+    service.update(updateId, newTradingPlanDto);
+    const tradingPlan: TradingPlan = service.findOne(updateId);
+
+    expect(tradingPlan.underlying).toEqual(newTradingPlanDto.underlying);
+  });
+
+  test('delete one trading plan', () => {
+    const baseTradingPlans: TradingPlan[] = createTradingPlans(service, 3);
+    const deleteId: string = baseTradingPlans[0].id;
+    service.delete(deleteId);
+
+    const tradingPlan: TradingPlan = service.findOne(deleteId);
+
+    expect(tradingPlan).toBeUndefined();
   });
 });
