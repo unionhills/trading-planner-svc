@@ -31,6 +31,6 @@ export class TradingPlansService {
   }
 
   public delete(id: string) {
-    return this.tradingPlansRepo.delete(id);
+    this.tradingPlansRepo.delete(id);
   }
 }
