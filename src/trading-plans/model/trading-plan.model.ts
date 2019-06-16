@@ -17,37 +17,37 @@ export class TradingPlan implements Trackable {
   // For a stock, the underlying and symbol should be the same.
   // For options, the underlying would be the stock symbol
   // whilst the symbol would be the option symbol
-  underlying: String;
-  underlyingDescription: String;
+  underlying: string;
+  underlyingDescription: string;
 
-  marketOutlook: String;
+  marketOutlook: string;
   marketTrend: TrendOutlook;
 
-  underlyingOutlook: String;
+  underlyingOutlook: string;
   underlyingTrend: TrendOutlook;
 
-  timeFrame: String;
-  strategy: String;
+  timeFrame: string;
+  strategy: string;
 
-  costPerContract: Number;
-  numberOfContracts: Number;
+  costPerContract: number;
+  numberOfContracts: number;
 
-  stopLoss: Number;
-  technicalStopLoss: Number;
+  stopLoss: number;
+  technicalStopLoss: number;
 
   timeStop: Date;
 
-  limit: Number;
-  technicalLimit: Number;
+  limit: number;
+  technicalLimit: number;
 
   plannedTradeEntryDate: Date;
   plannedTradeExitDate: Date;
 
-  entryReason: String;
-  contingencies: String;
+  entryReason: string;
+  contingencies: string;
 
   status: OrderStatus;
-  notes: String;
+  notes: string;
 
   createdAt: Date;
   updatedAt: Date;

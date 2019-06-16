@@ -10,11 +10,11 @@
     "timeFrame": "weekly",
     "strategy": "Stock purchase",
 
-    "costPerContract": "32",
-    "numberOfContracts": "100",
+    "costPerContract": 32,
+    "numberOfContracts": 100,
 
-    "stopLoss": "28",
-    "technicalStopLoss": "29.5",
+    "stopLoss": 28,
+    "technicalStopLoss": 29.5,
 
     "timeStop": "2019-11-26",
 
@@ -40,11 +40,11 @@
     "timeFrame": "weekly",
     "strategy": "Stock purchase",
 
-    "costPerContract": "200",
-    "numberOfContracts": "100",
+    "costPerContract": 200,
+    "numberOfContracts": 100,
 
-    "stopLoss": "190",
-    "technicalStopLoss": "195",
+    "stopLoss": 190,
+    "technicalStopLoss": 195,
 
     "timeStop": "2019-12-15",
 
@@ -60,4 +60,3 @@
     "updatedAt": "2019-06-06T20:00:22-57:00"
   }
 ]
-

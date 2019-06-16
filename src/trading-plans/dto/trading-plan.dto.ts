@@ -14,37 +14,37 @@ export class TradingPlanDto {
   // For a stock, the underlying and symbol should be the same.
   // For options, the underlying would be the stock symbol
   // whilst the symbol would be the option symbol
-  readonly underlying: String;
-  readonly underlyingDescription: String;
+  readonly underlying: string;
+  readonly underlyingDescription: string;
 
-  readonly marketOutlook: String;
+  readonly marketOutlook: string;
   readonly marketTrend: TrendOutlook;
 
-  readonly underlyingOutlook: String;
+  readonly underlyingOutlook: string;
   readonly underlyingTrend: TrendOutlook;
 
-  readonly timeFrame: String;
-  readonly strategy: String;
+  readonly timeFrame: string;
+  readonly strategy: string;
 
-  readonly costPerContract: Number;
-  readonly numberOfContracts: Number;
+  readonly costPerContract: number;
+  readonly numberOfContracts: number;
 
-  readonly stopLoss: Number;
-  readonly technicalStopLoss: Number;
+  readonly stopLoss: number;
+  readonly technicalStopLoss: number;
 
   readonly timeStop: Date;
 
-  readonly limit: Number;
-  readonly technicalLimit: Number;
+  readonly limit: number;
+  readonly technicalLimit: number;
 
   readonly plannedTradeEntryDate: Date;
   readonly plannedTradeExitDate: Date;
 
-  readonly entryReason: String;
-  readonly contingencies: String;
+  readonly entryReason: string;
+  readonly contingencies: string;
 
   readonly status: OrderStatus;
-  readonly notes: String;
+  readonly notes: string;
 
   readonly createdAt: Date;
   readonly updatedAt: Date;
